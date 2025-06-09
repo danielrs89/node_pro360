@@ -44,6 +44,8 @@ CREATE TABLE
         price_pros DECIMAL(10, 2),
         id_product INT,
         id_provider INT,
+        id_category INT,
+        CONSTRAINT fk_pp_category FOREIGN KEY (id_category) REFERENCES categories (id_category) ON DELETE SET NULL ON UPDATE CASCADE,
         CONSTRAINT fk_pp_product FOREIGN KEY (id_product) REFERENCES products (id_product) ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT fk_pp_provider FOREIGN KEY (id_provider) REFERENCES providers (id_provider) ON DELETE CASCADE ON UPDATE CASCADE
     );
@@ -172,19 +174,26 @@ VALUES
 
 -- 📥 Insertar relación productos ↔ proveedores
 INSERT INTO
-    pros (unit_pros, price_pros, id_product, id_provider)
+    pros (
+        unit_pros,
+        price_pros,
+        id_product,
+        id_provider,
+        id_category
+    )
 VALUES
-    (1, 30.00, 1, 1), -- Chuleton - Carnicas
-    (1, 18.00, 2, 2), -- Merluza - Pescados
-    (1, 6.90, 3, 3), -- Vino - Bodegas
-    (1, 0.80, 4, 4), -- Cola - Bebidas
-    (1, 12.50, 5, 5), -- Tarta - Dulces
-    (1, 2.50, 6, 1), -- Aceite - Carnicas
-    (1, 2.45, 6, 2), -- Aceite - Pescados
-    (1, 2.60, 6, 3), -- Aceite - Bodegas
-    (1, 2.55, 6, 4), -- Aceite - Bebidas
-    (1, 2.40, 6, 5); -- Aceite - Dulces
-    
+    (1, 30.00, 1, 1, 1), -- Chuleton - Carnicas
+    (1, 18.00, 2, 2, 2), -- Merluza - Pescados
+    (1, 6.90, 3, 3, 3), -- Vino - Bodegas
+    (1, 0.80, 4, 4, 4), -- Cola - Bebidas
+    (1, 12.50, 5, 5, 5), -- Tarta - Dulces
+    (1, 2.50, 6, 1, 6), -- Aceite - Carnicas
+    (1, 2.45, 6, 2, 6), -- Aceite - Pescados
+    (1, 2.60, 6, 3, 6), -- Aceite - Bodegas
+    (1, 2.55, 6, 4, 6), -- Aceite - Bebidas
+    (1, 2.40, 6, 5, 6);
+
+-- Aceite - Dulces
 -- 📥 Insertar ventas
 INSERT INTO
     sales (

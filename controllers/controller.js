@@ -79,7 +79,7 @@ exports.getAllProducts = (req, res) => {
 exports.getProductById = (req, res) => {
   const id = req.params.id;
   db.query(
-    "SELECT * FROM products WHERE id_product = ?",
+    "SELECT * FROM products JOIN categories ON products.id_category = categories.id_category WHERE id_product = ?",
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
@@ -87,7 +87,7 @@ exports.getProductById = (req, res) => {
         return res
           .status(404)
           .json({ message: "getProductById no encontrado" });
-      res.json(results[0]);
+      res.json(results);
     }
   );
 };

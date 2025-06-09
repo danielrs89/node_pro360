@@ -26,6 +26,7 @@ cd node_pro360
 npm init -y
 npm install express mysql2 dotenv
 npm install --save-dev nodemon
+npm install cors
 ```
 
 ### 2. Archivo .env

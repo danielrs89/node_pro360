@@ -129,12 +129,18 @@ exports.updateProduct = (req, res) => {
 };
 exports.deleteProduct = (req, res) => {
   const id = req.params.id;
-  db.query("DELETE FROM product WHERE id_product = ?", [id], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
-    if (results.length === 0)
-      return res.status(404).json({ message: "deleteProduct no encontrado" });
-    res.json(results[0]);
-  });
+  db.query(
+    "DELETE FROM products WHERE id_product = ?",
+    [id],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: err.message });
+
+      if (results.affectedRows === 0)
+        return res.status(404).json({ message: "Producto no encontrado" });
+
+      res.json({ message: "Producto eliminado correctamente", id });
+    }
+  );
 };
 // PROVIDER
 exports.getAllProviders = (req, res) => {
@@ -220,11 +226,11 @@ exports.deleteProvider = (req, res) => {
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-      if (results.length === 0)
-        return res
-          .status(404)
-          .json({ message: "deleteProvider no encontrado" });
-      res.json(results[0]);
+
+      if (results.affectedRows === 0)
+        return res.status(404).json({ message: "Proveedor no encontrado" });
+
+      res.json({ message: "Proveedor eliminado correctamente", id });
     }
   );
 };
@@ -238,7 +244,7 @@ exports.getAllPros = (req, res) => {
 exports.getAllProsById = (req, res) => {
   const id = req.params.id;
   db.query(
-    "SELECT pros.id_pros, pros.unit_pros, pros.price_pros,products.name_product, products.description_product, products.photo_product,providers.name_provider, providers.cif_provider, providers.count_provider FROM pros JOIN products ON pros.id_product = products.id_product JOIN providers ON pros.id_provider = providers.id_provider WHERE providers.id_provider = ?",
+    "SELECT pros.id_pros, pros.unit_pros, pros.price_pros,products.name_product, products.description_product, products.photo_product, products.id_category, providers.name_provider, providers.id_provider, providers.cif_provider, providers.count_provider FROM pros JOIN products ON pros.id_product = products.id_product JOIN providers ON pros.id_provider = providers.id_provider WHERE providers.id_provider = ? ORDER BY id_category ASC",
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
@@ -252,16 +258,20 @@ exports.getAllProsById = (req, res) => {
 };
 exports.createPros = (req, res) => {
   const {
-    unit_products_provider,
-    price_products_provider,
+    id_pros,
+    unit_pros,
+    price_pros,
     id_product,
+    id_provider,
     id_category,
   } = req.body;
 
   const pros = {
-    unit_products_provider: unit_products_provider,
-    price_products_provider: price_products_provider,
+    id_pros: id_pros,
+    unit_pros: unit_pros,
+    price_pros: price_pros,
     id_product: id_product,
+    id_provider: id_provider,
     id_category: id_category,
   };
   db.query("INSERT INTO pros SET ?", pros, (err, results) => {

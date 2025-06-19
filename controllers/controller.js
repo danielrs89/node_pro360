@@ -71,7 +71,7 @@ exports.getAllProducts = (req, res) => {
 exports.getProductById = (req, res) => {
   const id = req.params.id;
   db.query(
-    "SELECT * FROM products JOIN categories ON products.id_category = categories.id_category WHERE id_product = ?",
+    "SELECT products.* FROM products WHERE products.id_product = ?",
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
@@ -156,7 +156,7 @@ exports.createProvider = (req, res) => {
     count_provider,
     id_category,
   } = req.body;
-
+  
   const provider = {
     name_provider: name_provider,
     email_provider: email_provider,
@@ -172,7 +172,7 @@ exports.createProvider = (req, res) => {
 };
 exports.updateProvider = (req, res) => {
   const id = req.params.id;
-
+  
   const {
     name_provider,
     email_provider,
@@ -181,7 +181,7 @@ exports.updateProvider = (req, res) => {
     count_provider,
     id_category,
   } = req.body;
-
+  
   const provider = {
     name_provider: name_provider,
     email_provider: email_provider,
@@ -210,6 +210,17 @@ exports.deleteProvider = (req, res) => {
     }
   );
 };
+exports.getProvidersByProduct = (req, res) => {
+  const id = req.params.id;
+  db.query(
+    "SELECT providers.* FROM products JOIN pros ON pros.id_product = products.id_product JOIN providers ON providers.id_provider = pros.id_provider WHERE products.id_product = ?",
+    [id],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(results);
+    }
+  );
+};
 // PROS
 exports.getAllPros = (req, res) => {
   db.query("SELECT * FROM pros", (err, results) => {
@@ -231,8 +242,8 @@ exports.getAllProsById = (req, res) => {
 };
 exports.createPros = (req, res) => {
   const { unit_pros, price_pros, id_product, id_provider, id_category } =
-    req.body;
-
+  req.body;
+  
   const pros = {
     unit_pros: unit_pros,
     price_pros: price_pros,

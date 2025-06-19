@@ -20,6 +20,7 @@ router.get("/provider/:id", controller.getProviderById);
 router.post("/provider", controller.createProvider);
 router.put("/provider/:id", controller.updateProvider);
 router.delete("/provider/:id", controller.deleteProvider);
+router.get("/provider/:id", controller.getProvidersByProduct);
 // PROS
 router.get("/pros", controller.getAllPros);
 router.get("/pros/:id", controller.getAllProsById);

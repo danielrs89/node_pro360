@@ -182,16 +182,16 @@ INSERT INTO
         id_category
     )
 VALUES
-    (1, 30.00, 1, 1, 1), -- Chuleton - Carnicas
-    (1, 18.00, 2, 2, 2), -- Merluza - Pescados
-    (1, 6.90, 3, 3, 3), -- Vino - Bodegas
-    (1, 0.80, 4, 4, 4), -- Cola - Bebidas
-    (1, 12.50, 5, 5, 5), -- Tarta - Dulces
-    (1, 2.50, 6, 1, 6), -- Aceite - Carnicas
-    (1, 2.45, 6, 2, 6), -- Aceite - Pescados
-    (1, 2.60, 6, 3, 6), -- Aceite - Bodegas
-    (1, 2.55, 6, 4, 6), -- Aceite - Bebidas
-    (1, 2.40, 6, 5, 6);
+    (10, 30.00, 1, 1, 1), -- Chuleton - Carnicas
+    (11, 18.00, 2, 2, 2), -- Merluza - Pescados
+    (12, 6.90, 3, 3, 3), -- Vino - Bodegas
+    (13, 0.80, 4, 4, 4), -- Cola - Bebidas
+    (14, 12.50, 5, 5, 5), -- Tarta - Dulces
+    (9, 2.50, 6, 1, 6), -- Aceite - Carnicas
+    (8, 2.45, 6, 2, 6), -- Aceite - Pescados
+    (7, 2.60, 6, 3, 6), -- Aceite - Bodegas
+    (6, 2.55, 6, 4, 6), -- Aceite - Bebidas
+    (5, 2.40, 6, 5, 6);
 
 -- Aceite - Dulces
 -- 📥 Insertar ventas

@@ -13,11 +13,7 @@ exports.getCategoryById = (req, res) => {
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-      if (results.length === 0)
-        return res
-          .status(404)
-          .json({ message: "getCategoryById no encontrado" });
-      res.json(results[0]);
+      res.json(results);
     }
   );
 };
@@ -58,11 +54,7 @@ exports.deleteCategory = (req, res) => {
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-      if (results.length === 0)
-        return res
-          .status(404)
-          .json({ message: "deleteCategory no encontrado" });
-      res.json(results[0]);
+      res.json(results);
     }
   );
 };
@@ -83,10 +75,6 @@ exports.getProductById = (req, res) => {
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-      if (results.length === 0)
-        return res
-          .status(404)
-          .json({ message: "getProductById no encontrado" });
       res.json(results);
     }
   );
@@ -134,18 +122,14 @@ exports.deleteProduct = (req, res) => {
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-
-      if (results.affectedRows === 0)
-        return res.status(404).json({ message: "Producto no encontrado" });
-
-      res.json({ message: "Producto eliminado correctamente", id });
+      res.json(results);
     }
   );
 };
 // PROVIDER
 exports.getAllProviders = (req, res) => {
   db.query(
-    "SELECT *  FROM providers JOIN categories ON providers.id_category = categories.id_category ORDER BY categories.name_category",
+    "SELECT *  FROM providers JOIN categories ON providers.id_category = categories.id_category ORDER BY categories.id_category",
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
       res.json(results);
@@ -159,11 +143,7 @@ exports.getProviderById = (req, res) => {
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-      if (results.length === 0)
-        return res
-          .status(404)
-          .json({ message: "getProviderById no encontrado" });
-      res.json(results[0]);
+      res.json(results);
     }
   );
 };
@@ -226,17 +206,13 @@ exports.deleteProvider = (req, res) => {
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-
-      if (results.affectedRows === 0)
-        return res.status(404).json({ message: "Proveedor no encontrado" });
-
-      res.json({ message: "Proveedor eliminado correctamente", id });
+      res.json(results);
     }
   );
 };
 // PROS
 exports.getAllPros = (req, res) => {
-  db.query("SELECT * FROM products_provider", (err, results) => {
+  db.query("SELECT * FROM pros", (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results);
   });
@@ -244,30 +220,20 @@ exports.getAllPros = (req, res) => {
 exports.getAllProsById = (req, res) => {
   const id = req.params.id;
   db.query(
-    "SELECT pros.id_pros, pros.unit_pros, pros.price_pros,products.name_product, products.description_product, products.photo_product, products.id_category, providers.name_provider, providers.id_provider, providers.cif_provider, providers.count_provider FROM pros JOIN products ON pros.id_product = products.id_product JOIN providers ON pros.id_provider = providers.id_provider WHERE providers.id_provider = ? ORDER BY id_category ASC",
+    // "SELECT pros.id_pros, pros.unit_pros, pros.price_pros, products.name_product, products.description_product, products.photo_product, products.id_category, products.id_product, providers.name_provider, providers.id_provider, providers.cif_provider, providers.count_provider FROM pros JOIN products ON pros.id_product = products.id_product JOIN providers ON pros.id_provider = providers.id_provider WHERE providers.id_provider = ? ORDER BY id_category ASC",
+    "SELECT * FROM pros WHERE pros.id_provider = ? ORDER BY pros.id_category ASC",
     [id],
     (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-      if (results.length === 0)
-        return res
-          .status(404)
-          .json({ message: "getAllProsById no encontrado" });
       res.json(results);
     }
   );
 };
 exports.createPros = (req, res) => {
-  const {
-    id_pros,
-    unit_pros,
-    price_pros,
-    id_product,
-    id_provider,
-    id_category,
-  } = req.body;
+  const { unit_pros, price_pros, id_product, id_provider, id_category } =
+    req.body;
 
   const pros = {
-    id_pros: id_pros,
     unit_pros: unit_pros,
     price_pros: price_pros,
     id_product: id_product,
@@ -282,17 +248,14 @@ exports.createPros = (req, res) => {
 exports.updatePros = (req, res) => {
   const id = req.params.id;
 
-  const {
-    unit_products_provider,
-    price_products_provider,
-    id_product,
-    id_category,
-  } = req.body;
+  const { unit_pros, price_pros, id_product, id_provider, id_category } =
+    req.body;
 
   const pros = {
-    unit_products_provider: unit_products_provider,
-    price_products_provider: price_products_provider,
+    unit_pros: unit_pros,
+    price_pros: price_pros,
     id_product: id_product,
+    id_provider: id_provider,
     id_category: id_category,
   };
   db.query(
@@ -308,8 +271,6 @@ exports.deletePros = (req, res) => {
   const id = req.params.id;
   db.query("DELETE FROM pros WHERE id_pros = ?", [id], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    if (results.length === 0)
-      return res.status(404).json({ message: "deletePros no encontrado" });
-    res.json(results[0]);
+    res.json(results);
   });
 };

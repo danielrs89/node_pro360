@@ -138,37 +138,37 @@ VALUES
     (
         'Chuleton de ternera',
         'Chuleton de 1kg envasado al vacio',
-        'chuleton',
+        'chuleton.jpg',
         1
     ),
     (
         'Merluza fresca',
         'Merluza entera limpia de 2kg aprox.',
-        'merluza',
+        'merluza.jpg',
         2
     ),
     (
         'Vino tinto crianza',
         'Botella de 750ml de vino crianza',
-        'vino',
+        'vino.jpg',
         3
     ),
     (
         'Lata de cola 330ml',
         'Lata individual de refresco cola',
-        'cola',
+        'cola.jpg',
         4
     ),
     (
         'Tarta de queso',
         'Tarta de queso refrigerada de 1kg',
-        'tarta',
+        'tarta.jpg',
         5
     ),
     (
         'Aceite de oliva virgen extra',
         'Botella de 1L de aceite virgen extra',
-        'aceite',
+        'aceite.jpg',
         6
     );
 
